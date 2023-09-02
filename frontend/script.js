@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const weatherTable = document.getElementById('weatherTable').querySelector('tbody');
+    const weatherTable = document.getElementById('weatherTable2').querySelector('tbody');
+    const weatherTable2 = document.getElementById('weatherTable2').querySelector('tbody');
   
       // Function to create and append a table row for editing
   function createEditableRow(entry) {
@@ -54,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-  // script.js
+
 document.addEventListener('DOMContentLoaded', () => {
   const weatherForm = document.getElementById('weatherForm');
   const weatherDataDiv = document.getElementById('weatherData');
@@ -111,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-weatherTable.addEventListener('input', (event) => {
+weatherTable2.addEventListener('input', (event) => {
   const editedCell = event.target; // The edited cell (input element)
   const editedRow = editedCell.closest('tr'); // The edited row
   const editedData = {
