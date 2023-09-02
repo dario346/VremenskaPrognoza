@@ -60,14 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const weatherDataDiv = document.getElementById('weatherData');
   const sendToApiButton = document.getElementById('sendToApi');
 
-  let weatherData = null; // Store the retrieved weather data here
 
   weatherForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const city = document.getElementById('cityInput').value;
     try {
       const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=ca6af8906199bb7638bf0d0baeb8028b`);
-      weatherData = await response.json();
+      const weatherData = await response.json();
       const temperature = weatherData.list[0].main.temp;
       const name = weatherData.city.name;
       const datetime = weatherData.list[0].dt_txt;
@@ -78,6 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   sendToApiButton.addEventListener('click', async () => {
+    const city = document.getElementById('cityInput').value;
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=ca6af8906199bb7638bf0d0baeb8028b`);
+    const weatherData = await response.json();
     if (weatherData) {
       const city = weatherData.city.name;
       const temperature = weatherData.list[0].main.temp;
@@ -88,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         datetime: datetime,
         name: city
       };
+      console.log('Data to send:', dataToSend); // Debugging line
       try {
         const response = await fetch('http://localhost:3000/save-weather-data', {
           method: 'POST',

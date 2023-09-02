@@ -2,15 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const weatherTable = document.getElementById('weatherTable');
     const weatherTableBody = document.getElementById('weatherTableBody');
     const sortByIdButton = document.getElementById('sortByIdButton');
-  
-      // Function to create and append a table row for editing
+    const sortByTemperatureButton = document.getElementById('sortByTemperatureButton');
+    const sortByDatetimeButton = document.getElementById('sortByDatetimeButton');
+
+      
   function createTableRow(entry) {
     const row = document.createElement('tr');
     // Create id cell
     const idCell = document.createElement('td');
     idCell.textContent = entry.id;
     row.appendChild(idCell);
-
 
     // Create name cell
     const nameCell = document.createElement('td');
@@ -32,36 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return row;
   }
 
-  function sortTableById() {
-    const rows = Array.from(weatherTableBody.querySelectorAll('tr'));
-    console.log('Sorting table by ID');
-
-    rows.sort((a, b) => {
-    
-      const idA = parseInt(a.querySelector('td:first-child').textContent);
-      const idB = parseInt(b.querySelector('td:first-child').textContent);
-      console.log('ID A:', idA, 'ID B:', idB);
-      return idA - idB;
-    });
-
-    // Remove all rows from the table
-    rows.forEach(row => {
-      weatherTableBody.removeChild(row);
-    });
-
-    // Append sorted rows back to the table
-    rows.forEach(row => {
-      weatherTableBody.appendChild(row);
-    });
-  }
-
-  sortByIdButton.addEventListener('click', () => {
-    console.log('Button clicked'); 
-    sortTableById(); // Call the sortTableById function
-  });
-
-
-
   fetch('http://localhost:3000/weatherData')
     .then(response => response.json())
     .then(data => {
@@ -70,10 +41,57 @@ document.addEventListener('DOMContentLoaded', () => {
         const tableRow = createTableRow(entry);
 
         // Append the editable row to the table
-        weatherTable.appendChild(tableRow);
+        weatherTableBody.appendChild(tableRow);
       });
     })
     .catch(error => {
       console.error('Error fetching weather data:', error);
+  });
+
+    // Function to sort the table by temperature in ascending order
+      function sortTableByTemperature() {
+        const rows = [...weatherTableBody.querySelectorAll('tr')];
+        rows.sort((rowA, rowB) => {
+            const tempA = parseFloat(rowA.querySelector('td:nth-child(3)').textContent);
+            const tempB = parseFloat(rowB.querySelector('td:nth-child(3)').textContent);
+            return tempA - tempB;
+        });
+        
+        // Clear the existing table rows
+        weatherTableBody.innerHTML = '';
+        
+        // Append the sorted rows back to the table
+        rows.forEach(row => {
+          weatherTableBody.appendChild(row);
+        });
+      }
+      // Add an event listener to the "Sort by Temperature" button
+      sortByTemperatureButton.addEventListener('click', () => {
+          console.log('Button clicked');
+          sortTableByTemperature(); // Call the sortTableByTemperature function
+      });
+      function sortTableByDatetime() {
+        const rows = [...weatherTableBody.querySelectorAll('tr')];
+        rows.sort((rowA, rowB) => {
+            const datetimeA = rowA.querySelector('td:nth-child(4)').textContent;
+            const datetimeB = rowB.querySelector('td:nth-child(4)').textContent;
+            return datetimeA.localeCompare(datetimeB);
+        });
+        
+        // Clear the existing table rows
+        weatherTableBody.innerHTML = '';
+        
+        // Append the sorted rows back to the table
+        rows.forEach(row => {
+            weatherTableBody.appendChild(row);
+        });
+      }
+
+    // Add an event listener to the "Sort by Date and Time" button
+    sortByDatetimeButton.addEventListener('click', () => {
+        console.log('Button clicked');
+        sortTableByDatetime(); // Call the sortTableByDatetime function
     });
+
+
 });
