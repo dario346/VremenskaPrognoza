@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <a href="data.html">Go to Data Page</a>
+  <br>
+  <a href="edit-data.html">Go to Edit data Page</a>
   <title>Weather Data</title>
 </head>
 <body>
@@ -34,10 +37,10 @@
   <form id="weatherForm">
     <label for="cityInput">Enter City:</label>
     <input type="text" id="cityInput" name="city" required>
-    <button id="1day">Get Weather 1 Day</button>
-    <button id="3day">Get Weather for multiple days</button>
   </form>
   <div id="weatherData"></div>
+  <button id="1day">Get Weather 1 Day</button>
+  <button id="3day">Get Weather for multiple days</button>
   <button id="sendToApi">Send to API</button>
   <script>
     const weatherForm = document.getElementById('weatherForm');

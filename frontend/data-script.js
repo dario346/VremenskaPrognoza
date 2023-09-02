@@ -49,12 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
     // Function to sort the table by temperature in ascending order
+      let isAscendingTemp = true;
       function sortTableByTemperature() {
         const rows = [...weatherTableBody.querySelectorAll('tr')];
         rows.sort((rowA, rowB) => {
             const tempA = parseFloat(rowA.querySelector('td:nth-child(3)').textContent);
             const tempB = parseFloat(rowB.querySelector('td:nth-child(3)').textContent);
-            return tempA - tempB;
+            return isAscendingTemp ? tempA - tempB : tempB - tempA;
         });
         
         // Clear the existing table rows
@@ -64,18 +65,22 @@ document.addEventListener('DOMContentLoaded', () => {
         rows.forEach(row => {
           weatherTableBody.appendChild(row);
         });
+
+        isAscendingTemp =!isAscendingTemp;
       }
       // Add an event listener to the "Sort by Temperature" button
       sortByTemperatureButton.addEventListener('click', () => {
           console.log('Button clicked');
           sortTableByTemperature(); // Call the sortTableByTemperature function
       });
+      let isAscendingDate = true;
       function sortTableByDatetime() {
         const rows = [...weatherTableBody.querySelectorAll('tr')];
         rows.sort((rowA, rowB) => {
             const datetimeA = rowA.querySelector('td:nth-child(4)').textContent;
             const datetimeB = rowB.querySelector('td:nth-child(4)').textContent;
-            return datetimeA.localeCompare(datetimeB);
+
+            return isAscendingDate ? datetimeA.localeCompare(datetimeB) : datetimeB.localeCompare(datetimeA);
         });
         
         // Clear the existing table rows
@@ -85,6 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
         rows.forEach(row => {
             weatherTableBody.appendChild(row);
         });
+
+        isAscendingDate = !isAscendingDate;
       }
 
     // Add an event listener to the "Sort by Date and Time" button
